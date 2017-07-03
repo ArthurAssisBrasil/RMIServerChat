@@ -6,11 +6,14 @@
 package serverroomchat;
 
 import java.awt.Component;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import remoto.IRoomChat;
 
 /**
@@ -22,13 +25,13 @@ public class ServerFrame extends javax.swing.JFrame {
     /**
      * Creates new form ServerFrame
      */
-    TreeMap<String,IRoomChat> salas;
-    
+    TreeMap<String, IRoomChat> salas;
+
     public ServerFrame() {
         initComponents();
     }
-    
-    public ServerFrame(TreeMap<String,IRoomChat> salas) {
+
+    public ServerFrame(TreeMap<String, IRoomChat> salas) {
         this.salas = salas;
         initComponents();
     }
@@ -41,6 +44,7 @@ public class ServerFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jButton1 = new javax.swing.JButton();
         listaSalas = new javax.swing.JComboBox<>();
@@ -53,6 +57,11 @@ public class ServerFrame extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listaSalas, org.jdesktop.beansbinding.ELProperty.create("${selectedItem}"), listaSalas, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "selecionado");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,11 +83,18 @@ public class ServerFrame extends javax.swing.JFrame {
                 .addContainerGap(128, Short.MAX_VALUE))
         );
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+        String selecionado = listaSalas.getSelectedItem().toString();
+        try {
+            salas.get(selecionado).closeRoom();
+        } catch (RemoteException ex) {
+            Logger.getLogger(ServerFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -117,19 +133,20 @@ public class ServerFrame extends javax.swing.JFrame {
         });
     }
 
-    public void atualiza(){
+    public void atualiza() {
         listaSalas.removeAllItems();
         Set set = salas.entrySet();
         // Get an iterator
         Iterator i = set.iterator();
         // Display elements
-        while(i.hasNext()) {
-            Map.Entry sala = (Map.Entry)i.next();
+        while (i.hasNext()) {
+            Map.Entry sala = (Map.Entry) i.next();
             listaSalas.addItem(sala.getKey().toString());
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> listaSalas;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

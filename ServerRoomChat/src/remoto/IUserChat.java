@@ -17,4 +17,6 @@ public interface IUserChat extends java.rmi.Remote{
     public void updateUserList(TreeMap<String, IUserChat> userList) throws RemoteException;
     public int getID()  throws RemoteException;
     public Integer[] getClockVector() throws RemoteException;
+
+    public int leaveRoom(String nome);
 }

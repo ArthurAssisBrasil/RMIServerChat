@@ -48,8 +48,18 @@ public class RoomChat extends UnicastRemoteObject implements IRoomChat {
         }
     }
 
+    
     @Override
-    public void closeRoom(String nome) {
-
+    public void closeRoom() throws RemoteException{
+        Set<String> lista = userList.keySet();
+        for (String nome : lista) {
+            //String msg = "Sala Fechada";
+            //int userID = userList.get(nome).getID();
+            //userList.get(nome).deliverMsg(nome, msg, userID, userList.get(nome).getClockVector());
+            leaveRoom(nome);
+            
+        }
+        ServerRoomChat.close(roomName);
+        
     }
 }
