@@ -43,15 +43,14 @@ public class ServerRoomChat extends UnicastRemoteObject implements IServerRoomCh
     
     
     public static void main(String[] args) throws RemoteException {
-       // System.setSecurityManager(new RMISecurityManager());
+        System.setProperty("java.security.policy","src/serverroomchat/server.policy");
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+        }
         String IPServer = JOptionPane.showInputDialog("Qual o IP do servidor?");
         ServerRoomChat server = new ServerRoomChat();
         registry = LocateRegistry.createRegistry(2020);           
-        try {
-            Naming.rebind("rmi://"+IPServer+"/servidor", server);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(ServerRoomChat.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        registry.rebind("rmi://"+IPServer+"/servidor", server);
         System.out.println("Servidor criado!");
         srvFrame = new ServerFrame(roomList);
         srvFrame.setVisible(true);

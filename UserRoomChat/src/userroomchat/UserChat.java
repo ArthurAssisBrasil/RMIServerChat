@@ -32,16 +32,18 @@ public class UserChat extends UnicastRemoteObject implements IUserChat {
     public TreeMap<String, IUserChat> userList = null;
     public Integer ID = null;
     static UserFrame userFrame;
-    public static String IPServer;
     ArrayList<MsgBuffer> buffer = new ArrayList();
     Integer[][] clockMatrix = new Integer[20][20];
 
     public static void main(String[] args) throws RemoteException, AlreadyBoundException {
-        System.out.println(IPServer);
-        //System.setSecurityManager(new RMISecurityManager());
+        String IPServer = JOptionPane.showInputDialog("Qual o IP do servidor?");
+        System.setProperty("java.security.policy","src/userroomchat/server.policy");
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+        }
         try {
             registry = LocateRegistry.getRegistry(IPServer, 2020);
-            iServer = (IServerRoomChat) Naming.lookup("rmi://"+IPServer+"/servidor");
+            iServer = (IServerRoomChat) registry.lookup("rmi://"+IPServer+"/servidor");
             roomList = iServer.getRooms();
         } catch (Exception e) {
             System.out.println("erro:" + e);
