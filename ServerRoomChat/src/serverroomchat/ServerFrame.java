@@ -95,6 +95,7 @@ public class ServerFrame extends javax.swing.JFrame {
         } catch (RemoteException ex) {
             Logger.getLogger(ServerFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        atualiza();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

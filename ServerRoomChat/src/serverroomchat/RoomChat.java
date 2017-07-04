@@ -61,5 +61,6 @@ public class RoomChat extends UnicastRemoteObject implements IRoomChat {
         }
         ServerRoomChat.close(roomName);
         
+        
     }
 }
