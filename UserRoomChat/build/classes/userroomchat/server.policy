@@ -1,0 +1,6 @@
+grant{
+	permission java.security.AllPermission;
+	permission java.net.SocketPermission "localhost:2020", "connect, resolve";
+	permission java.net.SocketPermission "127.0.0.1:2020", "connect, resolve";
+	permission java.net.SocketPermission "localhost:2020", "connect, resolve";
+};
