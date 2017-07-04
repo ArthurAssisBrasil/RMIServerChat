@@ -75,6 +75,7 @@ public class ServerRoomChat extends UnicastRemoteObject implements IServerRoomCh
     
     public static void close(String sala){
        ServerRoomChat.roomList.remove(sala);
+       srvFrame.atualiza();
     }
    
     
