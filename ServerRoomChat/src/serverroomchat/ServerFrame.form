@@ -58,13 +58,6 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
-      <BindingProperties>
-        <BindingProperty name="selectedItem" source="listaSalas" sourcePath="${selectedItem}" target="listaSalas" targetPath="selectedItem" updateStrategy="0" immediately="false">
-          <Property name="nullValue" type="java.lang.Object" value="null"/>
-          <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
-          <Property name="name" type="java.lang.String" value="selecionado"/>
-        </BindingProperty>
-      </BindingProperties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
