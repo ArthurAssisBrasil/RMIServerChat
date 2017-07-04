@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
+import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import remoto.IServerRoomChat;
 import java.rmi.registry.LocateRegistry;
@@ -42,10 +43,15 @@ public class ServerRoomChat extends UnicastRemoteObject implements IServerRoomCh
     
     
     public static void main(String[] args) throws RemoteException {
+       // System.setSecurityManager(new RMISecurityManager());
         String IPServer = JOptionPane.showInputDialog("Qual o IP do servidor?");
         ServerRoomChat server = new ServerRoomChat();
         registry = LocateRegistry.createRegistry(2020);           
-        registry.rebind("rmi://"+IPServer+"/servidor", server);
+        try {
+            Naming.rebind("rmi://"+IPServer+"/servidor", server);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ServerRoomChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println("Servidor criado!");
         srvFrame = new ServerFrame(roomList);
         srvFrame.setVisible(true);

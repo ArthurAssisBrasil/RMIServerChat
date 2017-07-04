@@ -6,6 +6,8 @@
 package userroomchat;
 
 import java.rmi.AlreadyBoundException;
+import java.rmi.Naming;
+import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import remoto.IUserChat;
 import java.rmi.registry.LocateRegistry;
@@ -35,11 +37,11 @@ public class UserChat extends UnicastRemoteObject implements IUserChat {
     Integer[][] clockMatrix = new Integer[20][20];
 
     public static void main(String[] args) throws RemoteException, AlreadyBoundException {
-        IPServer = JOptionPane.showInputDialog("Qual o IP do servidor?");
         System.out.println(IPServer);
+        //System.setSecurityManager(new RMISecurityManager());
         try {
             registry = LocateRegistry.getRegistry(IPServer, 2020);
-            iServer = (IServerRoomChat) registry.lookup("rmi://"+IPServer+"/servidor");
+            iServer = (IServerRoomChat) Naming.lookup("rmi://"+IPServer+"/servidor");
             roomList = iServer.getRooms();
         } catch (Exception e) {
             System.out.println("erro:" + e);
