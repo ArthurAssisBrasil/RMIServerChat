@@ -42,25 +42,34 @@ public class RoomChat extends UnicastRemoteObject implements IRoomChat {
     @Override
     public void leaveRoom(String usrName) throws RemoteException {
         userList.remove(usrName);
+        /* precisa fazer isso pra dar certo
+                usr.userList = null;
+                usr.room = null;
+                usr.ID = null;
+                usr.clockMatrix = new Integer[20][20];
+                usr.buffer.removeAll(usr.buffer);
+                usr.usrFrame.setTitle(usr.usrName);
+         */
         Set<String> lista = userList.keySet();
         for (String nome : lista) {
             userList.get(nome).updateUserList(this.userList);
         }
     }
 
-    
     @Override
-    public void closeRoom() throws RemoteException{
-        Set<String> lista = userList.keySet();
-        for (String nome : lista) {
-            //String msg = "Sala Fechada";
-            //int userID = userList.get(nome).getID();
-            //userList.get(nome).deliverMsg(nome, msg, userID, userList.get(nome).getClockVector());
-            leaveRoom(nome);
-            
+    public void closeRoom() throws RemoteException {
+        while (!userList.isEmpty()) {
+            Set<String> lista = userList.keySet();
+            for (String nome : lista) {
+                //String msg = "Sala Fechada";
+                //int userID = userList.get(nome).getID();
+                //userList.get(nome).deliverMsg(nome, msg, userID, userList.get(nome).getClockVector());
+                leaveRoom(nome);
+
+            }
         }
+
         ServerRoomChat.close(roomName);
-        
-        
+
     }
 }

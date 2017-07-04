@@ -19,7 +19,7 @@ import remoto.*;
 
 /**
  *
- * @author cassiano
+ * @author cassiano, arthur
  */
 public class UserChat extends UnicastRemoteObject implements IUserChat {
 
