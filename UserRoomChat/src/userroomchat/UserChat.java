@@ -36,6 +36,7 @@ public class UserChat extends UnicastRemoteObject implements IUserChat {
 
     public static void main(String[] args) throws RemoteException, AlreadyBoundException {
         IPServer = JOptionPane.showInputDialog("Qual o IP do servidor?");
+        System.out.println(IPServer);
         try {
             registry = LocateRegistry.getRegistry(IPServer, 2020);
             iServer = (IServerRoomChat) registry.lookup("Servidor");
