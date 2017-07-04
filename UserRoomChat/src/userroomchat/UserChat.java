@@ -39,7 +39,7 @@ public class UserChat extends UnicastRemoteObject implements IUserChat {
         System.out.println(IPServer);
         try {
             registry = LocateRegistry.getRegistry(IPServer, 2020);
-            iServer = (IServerRoomChat) registry.lookup("Servidor");
+            iServer = (IServerRoomChat) registry.lookup("rmi://"+IPServer+"/servidor");
             roomList = iServer.getRooms();
         } catch (Exception e) {
             System.out.println("erro:" + e);

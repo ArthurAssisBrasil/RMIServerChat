@@ -5,8 +5,10 @@
  */
 package serverroomchat;
 
+import java.net.MalformedURLException;
 import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import remoto.IServerRoomChat;
 import java.rmi.registry.LocateRegistry;
@@ -19,6 +21,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import remoto.IRoomChat;
 
 /**
@@ -27,7 +30,7 @@ import remoto.IRoomChat;
  */
 public class ServerRoomChat extends UnicastRemoteObject implements IServerRoomChat{
     
-    Registry registry;     
+    static Registry registry;     
     String host = "localhost";
     static TreeMap<String, IRoomChat> roomList = new TreeMap<String, IRoomChat>();
     static ServerFrame srvFrame;
@@ -35,19 +38,15 @@ public class ServerRoomChat extends UnicastRemoteObject implements IServerRoomCh
     
     public ServerRoomChat() throws RemoteException{
         super();
-        try{
-            registry = LocateRegistry.createRegistry(2020);           
-            registry.rebind("Servidor", this);
-            System.out.println("Servidor criado!");
-        }catch(Exception e){
-            System.out.println("erro:" + e);
-            e.printStackTrace();
-        }
     }
     
     
     public static void main(String[] args) throws RemoteException {
+        String IPServer = JOptionPane.showInputDialog("Qual o IP do servidor?");
         ServerRoomChat server = new ServerRoomChat();
+        registry = LocateRegistry.createRegistry(2020);           
+        registry.rebind("rmi://"+IPServer+"/servidor", server);
+        System.out.println("Servidor criado!");
         srvFrame = new ServerFrame(roomList);
         srvFrame.setVisible(true);
     }
